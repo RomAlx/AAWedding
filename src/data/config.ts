@@ -152,7 +152,7 @@ export const config = {
   },
 
   footer: {
-    closing: 'Алексей и Анна',
+    closing: 'Очень ждем вас!',
     ornament: 'footer.png',
   },
 
