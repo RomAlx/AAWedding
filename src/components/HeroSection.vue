@@ -14,6 +14,39 @@ const imageEl = ref<HTMLElement | null>(null)
 const ctaEl = ref<HTMLAnchorElement | null>(null)
 
 let timeline: gsap.core.Timeline | null = null
+let scrollTween: gsap.core.Tween | null = null
+
+function scrollToSchedule(event: MouseEvent) {
+  const href = hero.ctaHref
+  if (!href.startsWith('#')) return
+
+  event.preventDefault()
+  const id = href.slice(1)
+  const target = document.getElementById(id)
+  if (!target) return
+
+  const top =
+    target.getBoundingClientRect().top +
+    (window.scrollY || window.pageYOffset || 0)
+
+  if (prefersReducedMotion()) {
+    window.scrollTo(0, top)
+    return
+  }
+
+  // Анимируем scroll вручную — ScrollToPlugin/native smooth
+  // часто ломаются из‑за overflow-x: clip и autoKill.
+  scrollTween?.kill()
+  const state = { y: window.scrollY || window.pageYOffset || 0 }
+  scrollTween = gsap.to(state, {
+    y: top,
+    duration: 1.25,
+    ease: 'power2.inOut',
+    onUpdate: () => {
+      window.scrollTo(0, state.y)
+    },
+  })
+}
 
 onMounted(() => {
   if (prefersReducedMotion()) {
@@ -50,6 +83,8 @@ onMounted(() => {
 onUnmounted(() => {
   timeline?.kill()
   timeline = null
+  scrollTween?.kill()
+  scrollTween = null
 })
 </script>
 
@@ -72,6 +107,7 @@ onUnmounted(() => {
         ref="ctaEl"
         :href="hero.ctaHref"
         class="btn-hero-ink hero-enter mt-8 sm:mt-0"
+        @click="scrollToSchedule"
       >
         <span>{{ hero.ctaLabel }}</span>
       </a>

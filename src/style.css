@@ -20,14 +20,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  overflow-x: clip;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  overflow-x: hidden;
 }
 
 body {
@@ -35,7 +28,7 @@ body {
   color: var(--color-text);
   background-color: var(--color-page-bg);
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 h1,

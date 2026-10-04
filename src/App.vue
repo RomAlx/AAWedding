@@ -15,7 +15,7 @@ const paperBg = computed(
 
 <template>
   <div
-    class="paper-bg min-h-screen overflow-x-clip"
+    class="paper-bg min-h-screen overflow-x-hidden"
     :style="{ backgroundImage: paperBg }"
   >
     <HeroSection />
